@@ -8,7 +8,19 @@ public class Sort {
         for(int l = 0; l < 100; l++){
             arr[l] = r.nextInt(100);
         }
-        System.out.println(Arrays.toString(bubbleSort(arr)));
+        System.out.println(Arrays.toString(insertionSort(arr)));
+    }
+    public static int[] insertionSort(int[] a){
+        for(int i = 0; i < a.length-1; i++){
+            int key = a[i + 1];
+
+            while(i >= 0 && a[i] > key){
+                a[i+1] = a[i];
+                i--;
+            }
+            a[i+1] = key;
+        }
+        return a;
     }
 
     public static int[] bubbleSort(int[] a){
