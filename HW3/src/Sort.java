@@ -4,11 +4,53 @@ import java.util.Random;
 public class Sort {
     public static void main(String args[]){
         Random r = new Random();
-        int[] arr = new int[50];
-        for(int l = 0; l < 50; l++){
+        int[] arr = new int[30];
+        for(int l = 0; l < 30; l++){
             arr[l] = r.nextInt(100);
         }
-        System.out.println(Arrays.toString(selectionSort(arr)));
+        System.out.println(Arrays.toString(mergeSort(arr)));
+    }
+
+
+    public static int[] mergeSort(int[] a){
+        if(a.length > 1) {
+            int numLeftElements = a.length / 2;
+            int numRightElements = a.length - numLeftElements;
+            int[] arrLeft = new int[numLeftElements];
+            int[] arrRight = new int[numRightElements];
+
+            for (int i = 0; i < numLeftElements; i++) {  //split left elements
+                arrLeft[i] = a[i];
+            }
+
+            for (int j = numLeftElements; j < numLeftElements + numRightElements; j++) { //split right elements
+                arrRight[j - numLeftElements] = a[j];
+            }
+
+            arrLeft = mergeSort(arrLeft);
+            arrRight = mergeSort(arrRight);
+
+            int leftMark = 0;
+            int rightMark = 0;
+            int i = 0;
+
+            while (arrLeft.length != leftMark && arrRight.length != rightMark) {
+                if (arrLeft[leftMark] > arrRight[rightMark]) {
+                    a[i++] = arrRight[rightMark++];
+                } else {
+                    a[i++] = arrLeft[leftMark++];
+                }
+            }
+
+            while (arrLeft.length != leftMark) {
+                a[i++] = arrLeft[leftMark++];
+            }
+
+            while (arrRight.length != rightMark) {
+                a[i++] = arrRight[rightMark++];
+            }
+        }
+    return a;
     }
 
     public static int[] selectionSort(int[] a){
