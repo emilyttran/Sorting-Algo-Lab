@@ -8,8 +8,27 @@ public class Sort {
         for(int l = 0; l < 50; l++){
             arr[l] = r.nextInt(100);
         }
-        quickSort(arr,0,arr.length-1);
+        shellSort(arr);
         System.out.print(Arrays.toString(arr));
+    }
+
+    public static void shellSort(int a[])
+    {
+        int n = a.length;
+
+        for (int gap = n/2; gap > 0; gap /= 2)
+        {
+            for (int i = gap; i < n; i += 1)
+            {
+                int temp = a[i];
+
+                int j;
+                for (j = i; j >= gap && a[j - gap] > temp; j -= gap)
+                    a[j] = a[j - gap];
+
+                a[j] = temp;
+            }
+        }
     }
 
     public static void quickSort(int[] a, int low, int high){
