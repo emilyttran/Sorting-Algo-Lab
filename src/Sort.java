@@ -1,3 +1,4 @@
+import java.io.*;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -5,17 +6,109 @@ public class Sort {
     public static void main(String args[]){
         int [] arr;
         int NUM_TRIALS = 25;
-        
-        for(int i = 0; i < NUM_TRIALS; i++) {
-            arr = createRandArr(100, 100);
-            shellSort(arr);
+        int NUM_ELEMENTS = 1000; //number of elements to sort
+        int NUM_BOUND = 100; //highest value for each element
+        long t1, t2, totalTime;
+
+        //Create data file
+        try {
+            PrintWriter writer = new PrintWriter("HW3DATA.txt","UTF-8");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
+
+        //BUBBLE SORT
+        totalTime = 0;
+        for(int i = 0; i < NUM_TRIALS; i++) {
+            arr = createRandArr(NUM_ELEMENTS, NUM_BOUND);
+
+            t1 = System.nanoTime();
+            bubbleSort(arr);
+            t2 = System.nanoTime();
+            totalTime += (t2 - t1);
+        }
+        System.out.println("Bubble Sort for " + NUM_ELEMENTS + " elements: " + totalTime/NUM_TRIALS);
+
+        //INSERTION SORT
+        totalTime = 0;
+        for(int i = 0; i < NUM_TRIALS; i++) {
+            arr = createRandArr(NUM_ELEMENTS, NUM_BOUND);
+
+            t1 = System.nanoTime();
+            insertionSort(arr);
+            t2 = System.nanoTime();
+            totalTime += (t2 - t1);
+        }
+        System.out.println("Insertion Sort for " + NUM_ELEMENTS + " elements: " + totalTime/NUM_TRIALS);
+
+        //SELECTION SORT
+        totalTime = 0;
+        for(int i = 0; i < NUM_TRIALS; i++) {
+            arr = createRandArr(NUM_ELEMENTS, NUM_BOUND);
+
+            t1 = System.nanoTime();
+            selectionSort(arr);
+            t2 = System.nanoTime();
+            totalTime += (t2 - t1);
+        }
+        System.out.println("Selection Sort for " + NUM_ELEMENTS + " elements: " + totalTime/NUM_TRIALS);
+
+        totalTime = 0;
+        for(int i = 0; i < NUM_TRIALS; i++) {
+            arr = createRandArr(NUM_ELEMENTS, NUM_BOUND);
+
+            t1 = System.nanoTime();
+            mergeSort(arr);
+            t2 = System.nanoTime();
+            totalTime += (t2 - t1);
+        }
+        System.out.println("Merge Sort for " + NUM_ELEMENTS + " elements: " + totalTime/NUM_TRIALS);
+
+        //QUICK SORT
+        totalTime = 0;
+        for(int i = 0; i < NUM_TRIALS; i++) {
+            arr = createRandArr(NUM_ELEMENTS, NUM_BOUND);
+
+            t1 = System.nanoTime();
+            quickSort(arr,0,NUM_ELEMENTS - 1);
+            t2 = System.nanoTime();
+            totalTime += (t2 - t1);
+        }
+        System.out.println("Quick Sort for " + NUM_ELEMENTS + " elements: " + totalTime/NUM_TRIALS);
+
+        //SHELL SORT
+        totalTime = 0;
+        for(int i = 0; i < NUM_TRIALS; i++) {
+            arr = createRandArr(NUM_ELEMENTS, NUM_BOUND);
+
+            t1 = System.nanoTime();
+            shellSort(arr);
+            t2 = System.nanoTime();
+            totalTime += (t2 - t1);
+        }
+        System.out.println("Shell Sort for " + NUM_ELEMENTS + " elements: " + totalTime/NUM_TRIALS);
+
+        //JAVA SORT
+        totalTime = 0;
+        for(int i = 0; i < NUM_TRIALS; i++) {
+            arr = createRandArr(NUM_ELEMENTS, NUM_BOUND);
+
+            t1 = System.nanoTime();
+            Arrays.sort(arr);
+            t2 = System.nanoTime();
+            totalTime += (t2 - t1);
+        }
+        System.out.println("Java Sort for " + NUM_ELEMENTS + " elements: " + totalTime/NUM_TRIALS);
     }
 
-    public static int[] createRandArr(int a, int bound){
+
+
+    public static int[] createRandArr(int numElements, int bound){
         Random r = new Random();
-        int[] arr = new int[a];
-        for(int i = 0; i < a; i++){
+        int[] arr = new int[numElements];
+        for(int i = 0; i < numElements; i++){
             arr[i] = r.nextInt(bound);
         }
         return arr;
