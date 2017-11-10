@@ -10,7 +10,7 @@ public class Sort {
         int NUM_BOUND = 100; //highest value for each element
         long t1, t2, totalTime;
 
-        //Create data file
+        //Create data files
         try {
             PrintWriter writer = new PrintWriter("HW3DATA.txt","UTF-8");
         } catch (FileNotFoundException e) {
