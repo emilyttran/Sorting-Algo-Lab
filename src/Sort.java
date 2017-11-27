@@ -12,10 +12,11 @@ public class Sort {
 
         //Create data files
         try {
-            PrintWriter writer = new PrintWriter("HW3DATA.txt","UTF-8");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
+            FileWriter fw = new FileWriter("C:\\Users\\emily_000\\Documents\\CodeStuff\\IdeaProjects\\HW3\\textFile.txt");
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write("Hi");
+            bw.close();
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
