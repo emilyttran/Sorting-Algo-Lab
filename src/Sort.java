@@ -21,7 +21,7 @@ public class Sort {
         long[][] timeArr = new long[7][10];
         int[] numEleArr = new int[10];
         int sortFunc;
-        String[] sortString = {"Bubble","Insertion","Selection","Merge","Quick","Shell","Arrays.sort()"};
+        String[] sortString = {"n","Bubble","Insertion","Selection","Merge","Quick","Shell","Arrays.sort()"};
 
         //get timing data
         for(int n = 0; n < 10; n++) {
@@ -134,12 +134,18 @@ public class Sort {
 
             for(int i = 1; i < 8; i++){
                 row = sheet.createRow((short)i);
-                row.createCell(0).setCellValue(sortString[i-1]);
+                row.createCell(0).setCellValue(sortString[i]);
                 for(int j = 1; j < 11; j++) {
-
                     row.createCell(j).setCellValue(timeArr[i-1][j-1]);
                 }
             }
+
+            //re-size cells
+            for (short i = sheet.getRow(0).getFirstCellNum(),
+                 end = sheet.getRow(0).getLastCellNum() ; i < end ; i++) {
+                sheet.autoSizeColumn(i);
+            }
+
             FileOutputStream fileOut = new FileOutputStream("HW3Data.xlsx");
             workbook.write(fileOut);
             fileOut.close();
