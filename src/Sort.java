@@ -1,143 +1,152 @@
-import org.apache.poi.*;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.WorkbookUtil;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.BufferedWriter;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Random;
+
+import static java.lang.Math.toIntExact;
 
 
 public class Sort {
     public static void main(String args[]){
         int [] arr;
         int NUM_TRIALS = 25;
-        int NUM_ELEMENTS = 1000; //number of elements to sort
+        int NUM_ELEMENTS = 10; //number of elements to sort
         int NUM_BOUND = 100; //highest value for each element
         long t1, t2, totalTime;
-        long[][] timeArr = new long[8][10];
+        long[][] timeArr = new long[7][10];
         int[] numEleArr = new int[10];
         int sortFunc;
 
-            try {
-                //initialize Excel files
-                XSSFWorkbook workbook = new XSSFWorkbook();
-                String safename = WorkbookUtil.createSafeSheetName("Sheet1");
-                Sheet sheet = workbook.createSheet(safename);
-                FileOutputStream fileOut = new FileOutputStream("HW3Data.xlsx");
-                workbook.write(fileOut);
+        //get timing data
+        for(int n = 0; n < 10; n++) {
+            NUM_ELEMENTS += NUM_ELEMENTS;
+            numEleArr[n] = NUM_ELEMENTS;
+            //BUBBLE SORT
+            totalTime = 0;
+            for (int i = 0; i < NUM_TRIALS; i++) {
+                arr = createRandArr(NUM_ELEMENTS, NUM_BOUND);
 
-                Row row = sheet.createRow(1);
-                row.createCell(1).setCellValue(10);
-
-                for(int n = 0; n < 10; n++) {
-                    NUM_ELEMENTS += NUM_ELEMENTS;
-                    numEleArr[n] = NUM_ELEMENTS;
-                    //BUBBLE SORT
-                    totalTime = 0;
-                    for (int i = 0; i < NUM_TRIALS; i++) {
-                        arr = createRandArr(NUM_ELEMENTS, NUM_BOUND);
-
-                        t1 = System.nanoTime();
-                        bubbleSort(arr);
-                        t2 = System.nanoTime();
-                        totalTime += (t2 - t1);
-                    }
-                    sortFunc = 1;
-                    timeArr[sortFunc][n] = totalTime / NUM_TRIALS;
-
-                    //INSERTION SORT
-                    totalTime = 0;
-                    for (int i = 0; i < NUM_TRIALS; i++) {
-                        arr = createRandArr(NUM_ELEMENTS, NUM_BOUND);
-
-                        t1 = System.nanoTime();
-                        insertionSort(arr);
-                        t2 = System.nanoTime();
-                        totalTime += (t2 - t1);
-                    }
-                    sortFunc = 2;
-                    timeArr[sortFunc][n] = totalTime / NUM_TRIALS;
-
-                    //SELECTION SORT
-                    totalTime = 0;
-                    for (int i = 0; i < NUM_TRIALS; i++) {
-                        arr = createRandArr(NUM_ELEMENTS, NUM_BOUND);
-
-                        t1 = System.nanoTime();
-                        selectionSort(arr);
-                        t2 = System.nanoTime();
-                        totalTime += (t2 - t1);
-                    }
-                    sortFunc = 3;
-                    timeArr[sortFunc][n] = totalTime / NUM_TRIALS;
-
-                    totalTime = 0;
-                    for (int i = 0; i < NUM_TRIALS; i++) {
-                        arr = createRandArr(NUM_ELEMENTS, NUM_BOUND);
-
-                        t1 = System.nanoTime();
-                        mergeSort(arr);
-                        t2 = System.nanoTime();
-                        totalTime += (t2 - t1);
-                    }
-                    sortFunc = 4;
-                    timeArr[sortFunc][n] = totalTime / NUM_TRIALS;
-
-                    //QUICK SORT
-                    totalTime = 0;
-                    for (int i = 0; i < NUM_TRIALS; i++) {
-                        arr = createRandArr(NUM_ELEMENTS, NUM_BOUND);
-
-                        t1 = System.nanoTime();
-                        quickSort(arr, 0, NUM_ELEMENTS - 1);
-                        t2 = System.nanoTime();
-                        totalTime += (t2 - t1);
-                    }
-                    sortFunc = 5;
-                    timeArr[sortFunc][n] = totalTime / NUM_TRIALS;
-
-                    //SHELL SORT
-                    totalTime = 0;
-                    for (int i = 0; i < NUM_TRIALS; i++) {
-                        arr = createRandArr(NUM_ELEMENTS, NUM_BOUND);
-
-                        t1 = System.nanoTime();
-                        shellSort(arr);
-                        t2 = System.nanoTime();
-                        totalTime += (t2 - t1);
-                    }
-                    sortFunc = 6;
-                    timeArr[sortFunc][n] = totalTime / NUM_TRIALS;
-
-                    //JAVA SORT
-                    totalTime = 0;
-                    for (int i = 0; i < NUM_TRIALS; i++) {
-                        arr = createRandArr(NUM_ELEMENTS, NUM_BOUND);
-
-                        t1 = System.nanoTime();
-                        Arrays.sort(arr);
-                        t2 = System.nanoTime();
-                        totalTime += (t2 - t1);
-                    }
-                    sortFunc = 7;
-                    timeArr[sortFunc][n] = totalTime / NUM_TRIALS;
-                }
-                fileOut.close();
-                System.out.println(Arrays.toString(numEleArr));
-                for(int i = 0; i < timeArr.length; i++){
-                    System.out.println(Arrays.toString(timeArr[i]));
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+                t1 = System.nanoTime();
+                bubbleSort(arr);
+                t2 = System.nanoTime();
+                totalTime += (t2 - t1);
             }
+            sortFunc = 0;
+            timeArr[sortFunc][n] = totalTime / NUM_TRIALS;
+
+            //INSERTION SORT
+            totalTime = 0;
+            for (int i = 0; i < NUM_TRIALS; i++) {
+                arr = createRandArr(NUM_ELEMENTS, NUM_BOUND);
+
+                t1 = System.nanoTime();
+                insertionSort(arr);
+                t2 = System.nanoTime();
+                totalTime += (t2 - t1);
+            }
+            sortFunc = 1;
+            timeArr[sortFunc][n] = totalTime / NUM_TRIALS;
+
+            //SELECTION SORT
+            totalTime = 0;
+            for (int i = 0; i < NUM_TRIALS; i++) {
+                arr = createRandArr(NUM_ELEMENTS, NUM_BOUND);
+
+                t1 = System.nanoTime();
+                selectionSort(arr);
+                t2 = System.nanoTime();
+                totalTime += (t2 - t1);
+            }
+            sortFunc = 2;
+            timeArr[sortFunc][n] = totalTime / NUM_TRIALS;
+
+            totalTime = 0;
+            for (int i = 0; i < NUM_TRIALS; i++) {
+                arr = createRandArr(NUM_ELEMENTS, NUM_BOUND);
+
+                t1 = System.nanoTime();
+                mergeSort(arr);
+                t2 = System.nanoTime();
+                totalTime += (t2 - t1);
+            }
+            sortFunc = 3;
+            timeArr[sortFunc][n] = totalTime / NUM_TRIALS;
+
+            //QUICK SORT
+            totalTime = 0;
+            for (int i = 0; i < NUM_TRIALS; i++) {
+                arr = createRandArr(NUM_ELEMENTS, NUM_BOUND);
+
+                t1 = System.nanoTime();
+                quickSort(arr, 0, NUM_ELEMENTS - 1);
+                t2 = System.nanoTime();
+                totalTime += (t2 - t1);
+            }
+            sortFunc = 4;
+            timeArr[sortFunc][n] = totalTime / NUM_TRIALS;
+
+            //SHELL SORT
+            totalTime = 0;
+            for (int i = 0; i < NUM_TRIALS; i++) {
+                arr = createRandArr(NUM_ELEMENTS, NUM_BOUND);
+
+                t1 = System.nanoTime();
+                shellSort(arr);
+                t2 = System.nanoTime();
+                totalTime += (t2 - t1);
+            }
+            sortFunc = 5;
+            timeArr[sortFunc][n] = totalTime / NUM_TRIALS;
+
+            //JAVA SORT
+            totalTime = 0;
+            for (int i = 0; i < NUM_TRIALS; i++) {
+                arr = createRandArr(NUM_ELEMENTS, NUM_BOUND);
+
+                t1 = System.nanoTime();
+                Arrays.sort(arr);
+                t2 = System.nanoTime();
+                totalTime += (t2 - t1);
+            }
+            sortFunc = 6;
+            timeArr[sortFunc][n] = totalTime / NUM_TRIALS;
+        }
+
+
+        try {
+
+            //initialize Excel files
+            XSSFWorkbook workbook = new XSSFWorkbook();
+            String safename = WorkbookUtil.createSafeSheetName("Data");
+            Sheet sheet = workbook.createSheet(safename);
+
+            //add data to sheet
+            Row row = sheet.createRow(0);
+            for(int i = 1; i < 11; i++){
+                row.createCell(i).setCellValue(numEleArr[i-1]);
+            }
+
+            for(int i = 1; i < 8; i++){
+                row = sheet.createRow((short)i);
+                for(int j = 1; j < 11; j++) {
+                    row.createCell(j).setCellValue(timeArr[i-1][j-1]);
+                }
+            }
+            FileOutputStream fileOut = new FileOutputStream("HW3Data.xlsx");
+            workbook.write(fileOut);
+            fileOut.close();
+            System.out.println(Arrays.toString(numEleArr));
+            for(int i = 0; i < timeArr.length; i++){
+                System.out.println(Arrays.toString(timeArr[i]));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
