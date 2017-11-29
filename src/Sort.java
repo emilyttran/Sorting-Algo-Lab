@@ -15,7 +15,7 @@ public class Sort {
     public static void main(String args[]){
         int [] arr;
         int NUM_TRIALS = 25;
-        int NUM_ELEMENTS = 10; //number of elements to sort
+        int NUM_ELEMENTS = 50; //number of elements to sort. This amount will multiply by 2 ever iteration
         int NUM_BOUND = 100; //highest value for each element
         long t1, t2, totalTime;
         long[][] timeArr = new long[7][10];
@@ -25,7 +25,11 @@ public class Sort {
 
         //get timing data
         for(int n = 0; n < 10; n++) {
-            NUM_ELEMENTS += NUM_ELEMENTS;
+            if(n == 0){
+
+            } else{
+                NUM_ELEMENTS += NUM_ELEMENTS;
+            }
             numEleArr[n] = NUM_ELEMENTS;
             //BUBBLE SORT
             totalTime = 0;
@@ -131,7 +135,7 @@ public class Sort {
             for(int i = 1; i < 11; i++){
                 row.createCell(i).setCellValue(numEleArr[i-1]);
             }
-
+            row.createCell(0).setCellValue(sortString[0]);
             for(int i = 1; i < 8; i++){
                 row = sheet.createRow((short)i);
                 row.createCell(0).setCellValue(sortString[i]);
